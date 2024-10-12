@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/remove-pages",
+      "schedule": "0 5 * * *"
+    }
+  ]
+}

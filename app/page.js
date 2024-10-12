@@ -45,6 +45,7 @@ export default function Home() {
       setEmail("");
     } else {
       alert("The prompt is invalid, please try again");
+      console.error(response);
     }
     setIsLoading(false);
   };
