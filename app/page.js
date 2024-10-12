@@ -3,28 +3,26 @@
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [email, setEmail] = useState("");
-  const [prompt, setPrompt] = useState("");
   const [name, setName] = useState("");
+  const [prompt, setPrompt] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
-  const [storedEmail, setStoredEmail] = useState("");
+  const [storedName, setStoredName] = useState("");
   const [pageUrl, setPageUrl] = useState("");
 
   useEffect(() => {
-    const storedEmail = localStorage.getItem("userEmail");
-    setStoredEmail(storedEmail);
-    if (storedEmail) {
-      setEmail(storedEmail);
-      setName(storedEmail.split("@")[0]); // Simple way to get a name from email
+    const storedName = localStorage.getItem("userName");
+    setStoredName(storedName);
+    if (storedName) {
+      setName(storedName);
     }
   }, []);
 
-  const handleEmailSubmit = (e) => {
+  const handleNameSubmit = (e) => {
     e.preventDefault();
-    localStorage.setItem("userEmail", email);
-    setStoredEmail(email);
-    setName(email.split("@")[0]);
+    const _name = name.toLowerCase().replace(/ /g, "-");
+    localStorage.setItem("userName", _name);
+    setStoredName(_name);
   };
 
   const handlePromptSubmit = async (e) => {
@@ -34,7 +32,7 @@ export default function Home() {
     const response = await fetch("/api", {
       method: "POST",
       body: JSON.stringify({
-        prompt: `${prompt}. And use the filename as the email of user which is ${email}`,
+        prompt: `${prompt}. And use the filename as the name of user which is ${name}`,
       }),
     });
 
@@ -42,7 +40,7 @@ export default function Home() {
       const data = await response.json();
       setPageUrl(data.message.url);
       setPrompt("");
-      setEmail("");
+      setName("");
     } else {
       alert("The prompt is invalid, please try again");
       console.error(response);
@@ -57,22 +55,22 @@ export default function Home() {
           Landing Page Creator
         </h1>
 
-        {!storedEmail ? (
-          <form onSubmit={handleEmailSubmit} className="mt-8 space-y-6">
+        {!storedName ? (
+          <form onSubmit={handleNameSubmit} className="mt-8 space-y-6">
             <div>
-              <label htmlFor="email" className="sr-only">
-                Email address
+              <label htmlFor="name" className="sr-only">
+                Name
               </label>
               <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
+                id="name"
+                name="name"
+                type="text"
+                autoComplete="name"
                 required
                 className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Enter your email to get started"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your name to get started"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div>

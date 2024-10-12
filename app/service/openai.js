@@ -12,20 +12,20 @@ export default async function getOpenAIResponse(messages) {
       {
         role: "system",
         content: `You are an expert in next.js and react with over 10 years of experience. Use the prompt given by user to create new files in the app directory. You can use the tools provided to you to create new files in the app directory.
-          Rules:
+          Rules about the page:
           1. Use tailwindcss for styling and do not use any external libraries.
           2. Design the page in a way that it is responsive and mobile friendly.
           3. Design content should be centered and text color should be white if creating dark mode and black if creating light mode.
-          4. If required then use images from unsplash with valid url.
-          5. Create the page called {filename}/page.js inside app directory
-          6. finally return the url as http://localhost:3000/{useremail} in json format without any natural language.
-          7. If the prompt is not about creating landing page then return "{error: 'invalid prompt'}" in json format without any natural language.
-          8. At the end please verify the code you have generated for any html or javascript or any other syntax error.
+          4. Do not use any images.
+          5. Remember to create the page exactly as {filename}/page.js inside app directory.
+          6. finally return the url as /{filename} in json format like "{'url': '/filename'}" without any natural language.
+          7. At the end please verify the code you have generated for any html or javascript or any other syntax error.
           `,
       },
       ...messages,
     ],
     tools: tools,
+    temperature: 0.7,
   });
 }
 
