@@ -46,13 +46,4 @@ export async function POST(request) {
 
     return NextResponse.json({ message: JSON.parse(content) }, { status: 200 });
   }
-
-  // For this example, we'll just echo back the prompt
-  return NextResponse.json(
-    {
-      message: "Prompt received successfully",
-      prompt: prompt,
-    },
-    { status: 200 }
-  );
 }
